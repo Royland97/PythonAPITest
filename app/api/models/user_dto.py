@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
-from app.core.domain.user import User
 
 class UserDto(BaseModel):
     id: Optional[str] = None
@@ -8,7 +7,7 @@ class UserDto(BaseModel):
     email: EmailStr
     password: str
 
-def user_to_dto(user: dict | User) -> UserDto:
+def user_to_dto(user: dict) -> UserDto:
     if isinstance(user, dict):
         data = dict(user)
     else:
