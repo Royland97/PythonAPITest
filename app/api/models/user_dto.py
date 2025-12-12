@@ -4,8 +4,9 @@ from app.core.domain.user import User
 
 class UserDto(BaseModel):
     id: Optional[str] = None
-    name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    name: str
+    email: EmailStr
+    password: str
 
 def user_to_dto(user: dict | User) -> UserDto:
     if isinstance(user, dict):
@@ -16,7 +17,8 @@ def user_to_dto(user: dict | User) -> UserDto:
     # Trun _id ObjectId into string
     if "_id" in data and data["_id"] is not None:
         data["id"] = str(data["_id"])
-    data.pop("_id", None)
+    #data.pop("_id", None)
+    
     return UserDto(**data)
 
 def dto_to_user(dto: UserDto) -> dict:

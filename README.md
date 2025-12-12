@@ -13,6 +13,8 @@ Running with Docker
 Stop the service
 <pre>docker-compose down</pre>
 
-Start API
-Once running (with Docker or locally), you can access:
-Swagger UI: http://localhost:8000/docs
+## ▶️ Start API
+
+Once running (with Docker or local), you can access:
+**Swagger UI:**  
+http://localhost:8000/docs

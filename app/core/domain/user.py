@@ -4,8 +4,9 @@ from app.core.domain.objectid_handler import PyObjectId
 
 class User(BaseModel):
     id: Optional[PyObjectId] = Field(default=None, alias="_id")
-    name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    name: str
+    email: EmailStr
+    password: str
 
     model_config = {
         "populate_by_name": True,

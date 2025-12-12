@@ -23,3 +23,8 @@ class DatabaseSettings(BaseSettings):
 
 # Load MongoDB settings
 db_settings = DatabaseSettings()
+
+class Settings(BaseSettings):
+    JWT_SECRET: str = "SUPERSECRET123"
+
+settings = Settings()
