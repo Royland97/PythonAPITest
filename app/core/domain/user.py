@@ -13,5 +13,4 @@ class User(BaseModel):
         "json_encoders": {
             PyObjectId: lambda v: str(v)
         }
-    }
-        
+    }   
