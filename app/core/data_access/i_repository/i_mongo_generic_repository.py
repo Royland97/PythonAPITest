@@ -1,4 +1,4 @@
-from typing import Protocol, Iterable, List, Optional, Any, runtime_checkable
+from typing import Protocol, Iterable, List, Optional, runtime_checkable
 
 @runtime_checkable
 class IMongoGenericRepository(Protocol):
@@ -33,5 +33,10 @@ class IMongoGenericRepository(Protocol):
     async def get_all_by_ids_async(self, ids: Iterable[str]) -> List[dict]:
         ...
 
-    async def get_by_key_value_async(self, key_value: Any) -> Optional[dict]:
+    async def get_paginated_async(
+        self,
+        skip: int,
+        limit: int,
+        sort: tuple = ("_id", -1)
+    ) -> tuple[int, List[dict]]:
         ...

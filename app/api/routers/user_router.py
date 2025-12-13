@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.core.data_access.i_repository.i_user_repository import IUserRepository
 from app.infrastructure.providers import get_user_repository
-from app.api.models.user_dto import UserDto, user_to_dto, dto_to_user
+from app.infrastructure.models.user_dto import UserDto, user_to_dto, dto_to_user
 from app.core.security import hash_password
 from app.api.tools.security_token import get_current_user
 

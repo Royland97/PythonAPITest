@@ -69,6 +69,22 @@ class MongoGenericRepository(IMongoGenericRepository):
         oid_list = [ObjectId(id) for id in ids]
         docs = self.collection.find({"_id": {"$in": oid_list}})
         return [doc async for doc in docs]
+    
+    async def get_paginated_async(
+        self,
+        skip: int,
+        limit: int,
+        sort: tuple = ("_id", -1)
+    ) -> tuple[int, List[dict]]:
+        total = await self.collection.count_documents({})
+        cursor = (
+            self.collection
+            .find({})
+            .sort(sort[0], sort[1])
+            .skip(skip)
+            .limit(limit)
+        )
 
-    async def get_by_key_value_async(self, key_value) -> Optional[dict]:
-        return await self.get_by_id_async(key_value)
+        items = await cursor.to_list(length=limit)
+        return total, items
+

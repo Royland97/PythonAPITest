@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.api.models.auth_dto import LoginDto, TokenResponse
+from app.infrastructure.models.auth_dto import LoginDto, TokenResponse
 from app.core.security import verify_password, create_access_token
 from app.infrastructure.providers import get_user_repository
-from app.api.models.user_dto import user_to_dto
+from app.infrastructure.models.user_dto import user_to_dto
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
