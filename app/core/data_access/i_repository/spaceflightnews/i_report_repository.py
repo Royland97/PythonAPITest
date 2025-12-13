@@ -5,5 +5,5 @@ from app.core.data_access.i_repository.i_mongo_generic_repository import IMongoG
 class IReportRepository(ABC, IMongoGenericRepository):
     
     @abstractmethod
-    async def get_by_title_async(self, title: str) -> Optional[dict]:
+    async def get_by_url_async(self, url: str) -> Optional[dict]:
         ...

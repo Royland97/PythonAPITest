@@ -1,6 +1,6 @@
 from typing import Optional
 
-class ArticleSyncProgress:
+class SyncProgress:
     def __init__(self):
         self.running = False
         self.cancelled = False
@@ -9,4 +9,4 @@ class ArticleSyncProgress:
         self.total = None
         self.error: Optional[str] = None
 
-progress = ArticleSyncProgress()
+progress = SyncProgress()

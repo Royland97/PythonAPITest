@@ -1,13 +1,13 @@
 import asyncio
 import httpx
 from app.infrastructure.services.spaceflightnews.sync_progress import progress
-from app.infrastructure.models.spaceflightnews.article_dto import response_to_dto, dto_to_article
-from app.core.data_access.i_repository.spaceflightnews.i_article_repository import IArticleRepository
+from app.infrastructure.models.spaceflightnews.report_dto import response_to_dto, dto_to_report
+from app.core.data_access.i_repository.spaceflightnews.i_report_repository import IReportRepository
 
-SPACEFLIGHT_API_URL = "https://api.spaceflightnewsapi.net/v4/articles/"
+SPACEFLIGHT_API_URL = "https://api.spaceflightnewsapi.net/v4/reports/"
 REQUEST_DELAY = 0.4  # ~2.5 req/seg
 
-async def sync_all_articles(repo: IArticleRepository):
+async def sync_all_reports(repo: IReportRepository):
     if progress.running:
         return
 
@@ -37,7 +37,7 @@ async def sync_all_articles(repo: IArticleRepository):
                 progress.current_page += 1
                 url = data.get("next")
 
-                articles_to_insert = []
+                reports_to_insert = []
 
                 for raw in data.get("results", []):
                     dto = response_to_dto(raw)
@@ -45,16 +45,16 @@ async def sync_all_articles(repo: IArticleRepository):
                     if await repo.get_by_url_async(dto.url):
                         continue
 
-                    articles_to_insert.append(dto_to_article(dto))
+                    reports_to_insert.append(dto_to_report(dto))
 
-                if articles_to_insert:
-                    await repo.save_all_async(articles_to_insert)
-                    progress.saved += len(articles_to_insert)
+                if reports_to_insert:
+                    await repo.save_all_async(reports_to_insert)
+                    progress.saved += len(reports_to_insert)
 
                 await asyncio.sleep(REQUEST_DELAY)
             
             # Create indexes
-            await create_article_indexes(repo)
+            await create_report_indexes(repo)
 
         except Exception as ex:
             progress.error = str(ex)
@@ -62,9 +62,9 @@ async def sync_all_articles(repo: IArticleRepository):
         finally:
             progress.running = False
 
-async def create_article_indexes(repo: IArticleRepository):
+async def create_report_indexes(repo: IReportRepository):
     """
-    Creates the necessary indexes in MongoDB for the articles collection.
+    Creates the necessary indexes in MongoDB for the reports collection.
     It only runs once at the end of the synchronization.
     """
     collection = repo.collection
