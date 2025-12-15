@@ -1,4 +1,9 @@
 fastapi
+uvicorn[standard]
+pydantic[email]
+pydantic-settings
+motor
+python-dotenv
+python-jose
+passlib
 httpx
-pydantic
-uvicorn

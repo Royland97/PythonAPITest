@@ -1,11 +1,27 @@
 services:
   fastapi-app:
     build: .
-    container_name: fastapi_crypto_api
+    container_name: fastapi_mongodb
     ports:
-      - "8000:8000"
+      - "443:443"
     volumes:
       - .:/app
     environment:
-      - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+      PYTHONUNBUFFERED: 1
+      APP_MONGO_USERNAME: admin
+      APP_MONGO_PASSWORD: admin123
+      APP_MONGO_HOST: mongodb
+      APP_MONGO_PORT: 27017
+      APP_MONGO_DATABASE: mydatabase
+    depends_on:
+      - mongodb
+  
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017" 
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_DATABASE=mydatabase
