@@ -1,7 +1,7 @@
 # PythonTestAPI
 
 This project consists of the design and implementation of a REST API developed in Python using the FastAPI framework with MongoDB. The API consumes information from the Spaceflight News API, an external source that provides news and reports related to space flights, missions and space stations published by various web media.
-
+url: https://www.spaceflightnewsapi.net/ 
 The objective of the project is to manage, store and expose this data in a structured way through REST endpoints, applying best practices in architecture, modularity, and modern API development.
 
 Requirements
