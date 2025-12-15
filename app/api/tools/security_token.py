@@ -4,12 +4,17 @@ from jose import jwt, JWTError
 from app.core.config import settings
 from app.infrastructure.providers import get_user_repository
 from app.core.data_access.i_repository.i_user_repository import IUserRepository
+from app.api.tools.token_bucket import TokenBucket
+import time
 
 security = HTTPBearer()
+user_buckets: dict[str, TokenBucket] = {}
+capacity: int = 5
+refill_rate: float = 1
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    repo: IUserRepository = Depends(get_user_repository)
+    repo: IUserRepository = Depends(get_user_repository),
 ):
     token = credentials.credentials
     try:
@@ -23,5 +28,27 @@ async def get_current_user(
     user = await repo.get_by_id_async(user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    #Rate limit
+    if user_id not in user_buckets:
+        user_buckets[user_id] = TokenBucket(capacity, refill_rate)
+
+    bucket = user_buckets[user_id]
+
+    if not bucket.consume():
+        raise HTTPException(
+            status_code=429,
+            detail="Rate limit exceeded"
+        )
 
     return user
+
+def cleanup_buckets(ttl_seconds: int = 3600):
+    now = time.time()
+    expired = [
+        user_id
+        for user_id, bucket in user_buckets.items()
+        if now - bucket.last_used > ttl_seconds
+    ]
+    for user_id in expired:
+        del user_buckets[user_id]
