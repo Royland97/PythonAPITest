@@ -20,7 +20,7 @@ Stop the service
 ## ▶️ Start API
 
 Once running (with Docker or local), you can access **Swagger UI:**  
-http://localhost:8000/docs
+https://localhost:443/docs
 
 ## Users Endpoints
 
