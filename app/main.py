@@ -24,7 +24,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="FastAPI MongoDB Clean Architecture",
     description="""
-    API para consultar información sobre las tasas de cambio de cryptomonedas y fiat
+    The API consumes information from **SpaceflightNewsAPI**
+
+    URL: https://www.spaceflightnewsapi.net/
     """,
     version="1.1.0",
     lifespan=lifespan
