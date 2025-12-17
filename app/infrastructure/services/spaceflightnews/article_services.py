@@ -1,6 +1,6 @@
 import asyncio
 import httpx
-from app.infrastructure.services.spaceflightnews.sync_progress import progress
+from app.infrastructure.services.spaceflightnews.article_sync_progress import progress
 from app.infrastructure.models.spaceflightnews.article_dto import response_to_dto, dto_to_article
 from app.core.data_access.i_repository.spaceflightnews.i_article_repository import IArticleRepository
 
