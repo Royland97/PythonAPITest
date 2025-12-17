@@ -4,7 +4,7 @@ from app.infrastructure.providers import get_report_repository
 from app.infrastructure.models.spaceflightnews.report_dto import report_to_dto 
 from app.infrastructure.models.spaceflightnews.report_paginated_dto import ReportPaginatedDto 
 from app.api.tools.security_token import get_current_user
-from app.infrastructure.services.spaceflightnews.sync_progress import progress
+from app.infrastructure.services.spaceflightnews.report_sync_progress import progress
 from app.infrastructure.services.spaceflightnews.report_services import sync_all_reports
 import asyncio
 
@@ -39,7 +39,9 @@ async def get_sync_progress(
 
 # ---------- CANCEL SYNC ----------
 @router.post("/sync/cancel")
-async def cancel_sync():
+async def cancel_sync(
+    current_user=Depends(get_current_user)
+):
     progress.cancelled = True
     return {"message": "Synchronization cancelled"}
 
