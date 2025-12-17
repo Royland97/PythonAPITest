@@ -39,7 +39,9 @@ async def get_sync_progress(
 
 # ---------- CANCEL SYNC ----------
 @router.post("/sync/cancel")
-async def cancel_sync():
+async def cancel_sync(
+    current_user=Depends(get_current_user)
+):
     progress.cancelled = True
     return {"message": "Synchronization cancelled"}
 
